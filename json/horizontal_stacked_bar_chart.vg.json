@@ -25,7 +25,7 @@
   },
   "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
   "data": {
-    "url": "data/production_by_climate(%).csv"
+    "url": "data/production_by_climate(percentage).csv"
   },
   "transform": [
     {
