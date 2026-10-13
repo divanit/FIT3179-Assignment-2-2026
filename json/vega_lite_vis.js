@@ -8,7 +8,7 @@ var specVis7 = "json/heatmap.vg.json";
 var specVis8 = "json/vertical_bar_chartbutterfly_chart.vg.json";
 var specVis9 = "json/connected_dot_plot.vg.json";
 var specVis10 = "json/parallel_coordinate_plot.vg.json";
-var specVis11 = "json/horizontal_stacked_bar_chart.vg.json"; // 11th visualization file
+var specVis11 = "json/horizontal_stacked_bar_chart.vg.json";
 
 vegaEmbed('#vis1', specVis1, { "actions": false }).catch(console.error);
 vegaEmbed('#vis2', specVis2, { "actions": false }).catch(console.error);
