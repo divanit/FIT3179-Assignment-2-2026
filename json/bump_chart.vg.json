@@ -1,0 +1,112 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "text": {
+      "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": 10,
+      "fontWeight": "bold"
+    }
+  },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
+  "data": {
+    "url": "data/area_by_variety_and_year(hectare).csv"
+  },
+  "transform": [
+    {
+      "fold": ["area2005", "area2010", "area2015", "area2020"],
+      "as": ["year_column", "area"]
+    },
+    {
+      "calculate": "replace(datum.year_column, 'area', '')",
+      "as": "year"
+    },
+    {
+      "calculate": "toNumber(datum.area)",
+      "as": "area_num"
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "area_num", "order": "descending"}],
+      "groupby": ["year"]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {
+        "title": "Year",
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "quantitative",
+      "scale": {
+        "reverse": true,
+        "domain": [1, 10]
+      },
+      "axis": {
+        "title": "Rank",
+        "tickMinStep": 1,
+        "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      }
+    },
+    "color": {
+      "field": "variety",
+      "type": "nominal",
+      "title": "Wine Variety",
+      "scale": {"scheme": "category10"}
+    },
+    "tooltip": [
+      { "field": "variety", "type": "nominal", "title": "Variety" },
+      { "field": "year", "type": "ordinal", "title": "Year" },
+      { "field": "rank", "type": "quantitative", "title": "Rank" },
+      { "field": "area_num", "type": "quantitative", "title": "Area (hectare)", "format": "," }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 320,
+        "opacity": 1
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "color": "white",
+        "fontSize": 10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "text": { "field": "rank", "type": "quantitative" }
+      }
+    }
+  ]
+}

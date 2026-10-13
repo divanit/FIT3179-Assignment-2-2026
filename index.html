@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond the Bottle</title>
+
+  <!-- Pure CSS & Grids CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+
+  <!-- Google Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900;1000&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- Vega, Vega-Lite, Vega-Embed CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="page">
+    
+    <!-- MAIN TITLE & INTRO -->
+    <div class="pure-g">
+      <div class="pure-u-1" style="text-align: center;">
+        <h1>BEYOND THE BOTTLE</h1>
+        <h3>Exploring Australia's wine regions through grape varieties, production, value and climate</h3>
+        
+        <p class="section-description" style="max-width: 1020px; margin-left: auto; margin-right: auto;">
+          Australia's wine industry stretches across a diverse collection of wine-producing regions. 
+          But these regions are not interchangeable. The grapes they grow, the volume they produce, 
+          the prices they receive and the environments they occupy reveal distinct regional identities.
+        </p>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         SECTION 1: THE WINE LANDSCAPE (3 CHARTS)
+         ========================================================================== -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h2>The Wine Landscape</h2>
+        <p class="section-description">
+          Before we compare regions, let's understand the broader shape of Australia's wine industry.
+        </p>
+      </div>
+    </div>
+
+    <!-- Chart 1 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Where is Australia's wine grape production concentrated?</h3>
+        <p class="section-description">State-level distribution of total Australian winegrape production over time.</p>
+        <div id="vis1" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>How has Australia's grape landscape changed?</h3>
+        <p class="section-description">Tracking how the production area of Australia’s 10 major grape varieties shifted between 2005 and 2020.</p>
+        <div id="vis2" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 3 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>How does red winegrape production compare with white?</h3>
+        <p class="section-description">Comparing total national harvest volumes (in tonnes) between red and white grape varieties from 2005 to 2020.</p>
+        <div id="vis3" class="vis-container"></div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         SECTION 2: THE IDENTITY OF PLACE (3 CHARTS)
+         ========================================================================== -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h2>The Identity of Place</h2>
+        <p class="section-description">
+          The national picture hides the distinct regional identities that shape Australian wine.
+        </p>
+      </div>
+    </div>
+
+    <!-- Chart 4 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Which wine regions drive Australia's production?</h3>
+        <p class="section-description">Geographic distribution of regional production output.</p>
+        <div id="vis4" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 5 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Regional Crush Performance</h3>
+        <p class="section-description">Evaluating regional crushing capacities and annual harvest yields.</p>
+        <div id="vis5" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 6 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>How concentrated are grape varieties within each region?</h3>
+        <p class="section-description">Mapping the Varietal Concentration Index (VCI) across Australian wine-producing regions</p>
+        <div id="vis6" class="vis-container"></div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         SECTION 3: FROM GRAPES TO VALUE (3 CHARTS)
+         ========================================================================== -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h2>From Grapes to Value</h2>
+        <p class="section-description">
+          Analyzing financial value per tonne, variety price rankings, and production volume relationships.
+        </p>
+      </div>
+    </div>
+
+    <!-- Chart 7 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Average Price Per Tonne Heatmap</h3>
+        <p class="section-description">Varietal price variation across different geographic zones.</p>
+        <div id="vis7" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 8 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Variety Price Rankings Over Time</h3>
+        <p class="section-description">Tracking rank changes in market value across harvest years.</p>
+        <div id="vis8" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 9 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Value vs. Volume Relationship</h3>
+        <p class="section-description">Comparing high-value premium regions against high-volume commercial production hubs.</p>
+        <div id="vis9" class="vis-container"></div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         SECTION 4: WINE IN A CHANGING CLIMATE (2 CHARTS)
+         ========================================================================== -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h2>Wine in a Changing Climate</h2>
+        <p class="section-description">
+          Different climates create different environments for Australia's vineyards.
+        </p>
+      </div>
+    </div>
+
+    <!-- Chart 10 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>Multi-Variable Climate Comparison</h3>
+        <p class="section-description">Parallel coordinates comparing temperature, rainfall, and elevation across regions.</p>
+        <div id="vis10" class="vis-container"></div>
+      </div>
+    </div>
+
+    <!-- Chart 11 -->
+    <div class="pure-g">
+      <div class="pure-u-1">
+        <h3>How has wine production in different climate conditions changed?</h3>
+        <p class="section-description">Long-term shifts in mean harvest temperatures across key wine regions.</p>
+        <div id="vis11" class="vis-container"></div>
+      </div>
+    </div>
+
+  </div> <!-- End .page -->
+
+  <!-- JavaScript Embed Script -->
+  <script src="json/vega_lite_vis.js"></script>
+</body>
+</html>

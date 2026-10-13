@@ -1,0 +1,133 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "view": {
+      "stroke": null
+    }
+  },
+  "padding": { "left": 10, "right": 80, "top": 10, "bottom": 10 },
+  "projection": {
+    "type": "mercator",
+    "center": [133, -28],
+    "scale": 520
+  },
+  "params": [
+    {
+      "name": "Year_Selection",
+      "value": 2020,
+      "bind": {
+        "input": "select",
+        "options": [2005, 2010, 2015, 2020],
+        "labels": ["2005", "2010", "2015", "2020"],
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
+    },
+    {
+      "data": {
+        "url": "json/australia_boundary.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_0_countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+      "fill": "#e8e8e8",
+        "stroke": "black",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "tooltip": [
+          {"field": "properties.NAME", "type": "nominal", "title": "Country"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/production_by_region_processed.csv"
+      },
+      "transform": [
+        {
+          "fold": ["prod2005", "prod2010", "prod2015", "prod2020"],
+          "as": ["year_col", "prod"]
+        },
+        {
+          "calculate": "replace(datum.year_col, 'prod', '')",
+          "as": "year"
+        },
+        {
+          "calculate": "toNumber(datum.prod)",
+          "as": "prod_num"
+        },
+        {
+          "filter": "datum.year == Year_Selection && datum.prod_num > 0"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "black",
+        "strokeWidth": 0.4
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "prod_num",
+          "type": "quantitative",
+          "title": ["Production Volume", "(Tonnes)"],
+          "scale": {
+            "type": "sqrt",
+            "domain": [0, 500000],
+            "range": [20, 500]
+          }
+        },
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "title": "State / Territory",
+          "scale": {"scheme": "category10"}
+        },
+        "tooltip": [
+          {"field": "region", "type": "nominal", "title": "Region"},
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "ordinal", "title": "Year"},
+          {"field": "prod_num", "type": "quantitative", "title": "Production (Tonnes)", "format": ","}
+        ]
+      }
+    }
+  ]
+}

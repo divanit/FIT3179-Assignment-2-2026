@@ -1,0 +1,126 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "background": "transparent",
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 11
+    },
+    "view": {
+      "stroke": null
+    }
+  },
+  "data": {
+    "url": "data/production_by_colour_and_year(tonne).csv"
+  },
+  "transform": [
+    {
+      "fold": ["prod2005", "prod2010", "prod2015", "prod2020"],
+      "as": ["year_col", "production"]
+    },
+    {
+      "calculate": "replace(datum.year_col, 'prod', '')",
+      "as": "year"
+    },
+    {
+      "calculate": "datum.production / 1000",
+      "as": "production_k"
+    },
+    {
+      "calculate": "datum.colour == 'R' ? 'Red Wine' : 'White Wine'",
+      "as": "category"
+    }
+  ],
+  "spacing": 10,
+  "hconcat": [
+    {
+      "title": {
+        "text": "Red Wine (000s Tonnes)",
+        "fontSize": 12,
+        "color": "#000000",
+        "align": "right",
+        "anchor": "end",
+        "orient": "bottom",
+        "offset": 12
+      },
+      "width": 455,
+      "height": 280,
+      "transform": [{ "filter": "datum.colour == 'R'" }],
+      "mark": { "type": "bar", "color": "#d0283f", "size": 36 },
+      "encoding": {
+        "y": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": null
+        },
+        "x": {
+          "field": "production_k",
+          "type": "quantitative",
+          "scale": { "domain": [0, 1100], "reverse": true },
+          "axis": { "title": null, "tickCount": 5 }
+        },
+        "tooltip": [
+          { "field": "year", "type": "ordinal", "title": "Year" },
+          { "field": "category", "type": "nominal", "title": "Category" },
+          { "field": "production", "type": "quantitative", "title": "Production (Tonnes)", "format": "," }
+        ]
+      }
+    },
+    {
+      "width": 50,
+      "height": 280,
+      "transform": [{ "filter": "datum.colour == 'R'" }],
+      "mark": {
+        "type": "text",
+        "fontWeight": "bold",
+        "fontSize": 13,
+        "color": "#2b2b2b"
+      },
+      "encoding": {
+        "y": { "field": "year", "type": "ordinal", "axis": null },
+        "text": { "field": "year", "type": "ordinal" }
+      }
+    },
+    {
+      "title": {
+        "text": "White Wine (000s Tonnes)",
+        "fontSize": 12,
+        "color": "#000000",
+        "align": "left",
+        "anchor": "start",
+        "orient": "bottom",
+        "offset": 12
+      },
+      "width": 455,
+      "height": 280,
+      "transform": [{ "filter": "datum.colour == 'W'" }],
+      "mark": { "type": "bar", "color": "#dfb7b7", "size": 36 },
+      "encoding": {
+        "y": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": null
+        },
+        "x": {
+          "field": "production_k",
+          "type": "quantitative",
+          "scale": { "domain": [0, 1100] },
+          "axis": { "title": null, "tickCount": 5 }
+        },
+        "tooltip": [
+          { "field": "year", "type": "ordinal", "title": "Year" },
+          { "field": "category", "type": "nominal", "title": "Category" },
+          { "field": "production", "type": "quantitative", "title": "Production (Tonnes)", "format": "," }
+        ]
+      }
+    }
+  ]
+}

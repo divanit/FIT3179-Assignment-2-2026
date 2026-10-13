@@ -1,0 +1,73 @@
+region,prod2005,prod2010,prod2015,prod2020,latitude,longitude,state
+Adelaide Hills,27238.0,28161,22943,12048.0,-34.915,138.805,South Australia
+Adelaide Plains,7686.0,4780,3092,2125.0,-34.75,138.6,South Australia
+Alpine Valleys,8800.0,4221,2068,504.0,-36.65,146.85,Victoria
+Barossa Valley,84906.0,60796,44706,29071.0,-34.538,138.948,South Australia
+Beechworth,710.0,175,636,17.0,-36.358,146.688,Victoria
+Bendigo,3538.0,3190,2411,1400.0,-36.757,144.279,Victoria
+Big Rivers - other,9812.0,7032,10107,7369.0,-34.5,144.0,New South Wales
+Blackwood Valley,3916.0,1262,1629,631.0,-33.85,116.15,Western Australia
+Canberra District,1824.0,2005,1557,0.0,-35.28,149.13,Australian Capital Territory
+Central Ranges - other,764.0,870,2040,1187.0,-32.6,149.0,New South Wales
+Central Victoria - other,1692.0,348,1281,2507.0,-36.8,144.5,Victoria
+Clare Valley,30480.0,21675,16040,11947.0,-33.833,138.617,South Australia
+Coonawarra,36514.0,36094,27138,26241.0,-37.283,140.833,South Australia
+Cowra,29256.0,5152,5105,2755.0,-33.839,148.68,New South Wales
+Eden Valley,15615.0,10876,9657,3623.0,-34.55,139.083,South Australia
+Fleurieu - other,9980.0,11714,11197,6109.0,-35.55,138.65,South Australia
+Geelong,2634.0,2025,1006,984.0,-38.149,144.361,Victoria
+Geographe,5125.0,6232,1744,1643.0,-33.37,115.64,Western Australia
+Gippsland,618.0,805,562,149.0,-38.1,147.1,Victoria
+Glenrowan,1916.0,652,996,381.0,-36.467,146.367,Victoria
+Goulburn Valley,8620.0,11673,10270,6412.0,-36.38,145.4,Victoria
+Grampians,2803.0,2753,962,1372.0,-37.25,142.5,Victoria
+Granite Belt,2598.0,800,564,67.0,-28.65,151.95,Queensland
+Great Southern,16292.0,15047,6205,5450.0,-34.95,117.6,Western Australia
+Greater Perth - other,889.0,114,603,0.0,-31.95,115.85,Western Australia
+Gundagai,5624.0,4518,2173,377.0,-35.06,148.11,New South Wales
+Hastings River,96.0,71,52,10.0,-31.43,152.9,New South Wales
+Heathcote,5643.0,8499,7729,7049.0,-36.908,144.708,Victoria
+Henty,869.0,993,603,231.0,-37.7,141.5,Victoria
+Hilltops,4345.0,2074,4011,1043.0,-34.55,148.4,New South Wales
+Hunter Valley,23672.0,13886,7598,2158.0,-32.77,151.35,New South Wales
+Langhorne Creek,60860.0,46337,38921,24286.0,-35.283,139.033,South Australia
+Limestone Coast - other,22519.0,20158,14325,11394.0,-37.0,140.5,South Australia
+Macedon Ranges,658.0,514,557,44.0,-37.35,144.55,Victoria
+Manjimup,0.0,799,237,16.0,-34.244,116.145,Western Australia
+Margaret River,37640.0,31370,26131,21312.0,-33.955,115.075,Western Australia
+McLaren Vale,65126.0,42677,28434,28751.0,-35.222,138.542,South Australia
+Mornington Peninsula,3111.0,3802,3257,1703.0,-38.35,145.033,Victoria
+Mudgee,26509.0,9358,4771,1751.0,-32.598,149.588,New South Wales
+Murray Darling - Swan Hill (NSW),135241.0,133482,171780,157010.0,-35.0,143.5,New South Wales
+Murray Darling - Swan Hill (Vic),306755.0,202014,209953,193580.0,-35.33,143.55,Victoria
+North East Victoria - other,11781.0,12809,15073,10852.0,-36.4,146.5,Victoria
+Northern Rivers - other,122.0,50,17,8.0,-28.8,153.0,New South Wales
+Northern Slopes,1804.0,1129,222,17.0,-31.0,150.0,New South Wales
+Orange,5448.0,5563,7389,1457.0,-33.283,149.1,New South Wales
+Padthaway,33660.0,37257,25352,16429.0,-36.567,140.6,South Australia
+Peel,64.0,317,34,12.0,-32.533,115.9,Western Australia
+Pemberton,0.0,3942,1971,1285.0,-34.444,116.033,Western Australia
+Perricoota,2189.0,6213,5823,223.0,-36.117,144.75,New South Wales
+Perth Hills,1934.0,1333,307,148.0,-31.95,116.1,Western Australia
+Port Phillip - other,210.0,215,3398,25.0,-37.8,145.0,Victoria
+Pyrenees,3300.0,4423,2268,970.0,-37.25,143.367,Victoria
+Qld - other,2058.0,205,118,67.0,-25.0,151.5,Queensland
+Riverina,219517.0,245747,293629,268547.0,-34.283,146.05,New South Wales
+Riverland,482216.0,333602,454205,461385.0,-34.25,140.583,South Australia
+Rutherglen,7494.0,5411,2341,2239.0,-36.05,146.467,Victoria
+SA - other,0.0,4165,4027,5414.0,-32.0,135.0,South Australia
+South Burnett,2033.0,447,347,39.0,-26.54,151.85,Queensland
+South Coast - other,331.0,426,303,5.0,-35.0,117.5,Western Australia
+Southern Highlands,563.0,916,416,0.0,-34.483,150.417,New South Wales
+Southern New South Wales - other,2539.0,1124,238,0.0,-35.0,147.0,New South Wales
+Strathbogie Ranges,3150.0,2215,3900,1305.0,-36.85,145.5,Victoria
+Sunbury,606.0,361,240,47.0,-37.583,144.733,Victoria
+Swan District,9130.0,4881,7177,2528.0,-31.833,116.0,Western Australia
+Tas,6136.0,7388,8346,9166.0,-42.0,147.0,Tasmania
+Tumbarumba,1451.0,2168,1571,0.0,-35.767,148.017,New South Wales
+Upper Goulburn,2454.0,1014,2878,356.0,-37.2,145.8,Victoria
+WA - other,4959.0,1170,338,2.0,-30.0,121.0,Western Australia
+Western Plains,5534.0,1472,1259,0.0,-32.0,147.0,New South Wales
+Western Victoria - other,203.0,232,170,38.0,-37.5,143.0,Victoria
+Wrattonbully,16780.0,23292,16557,12371.0,-37.15,140.883,South Australia
+Yarra Valley,15401.0,15712,13566,6206.0,-37.65,145.417,Victoria

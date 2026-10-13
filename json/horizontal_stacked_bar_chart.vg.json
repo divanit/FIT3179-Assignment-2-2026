@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "view": {
+      "stroke": null
+    }
+  },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
+  "data": {
+    "url": "data/production_by_climate(%).csv"
+  },
+  "transform": [
+    {
+      "fold": ["share2005", "share2010", "share2015", "share2020"],
+      "as": ["year_col", "share"]
+    },
+    {
+      "calculate": "replace(datum.year_col, 'share', '')",
+      "as": "year"
+    },
+    {
+      "calculate": "toNumber(datum.share)",
+      "as": "share_num"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "height": {"band": 0.55}
+  },
+  "encoding": {
+    "y": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {
+        "title": "Year",
+        "labelAngle": 0,
+        "grid": false
+      },
+      "sort": ["2005", "2010", "2015", "2020"]
+    },
+    "x": {
+      "field": "share_num",
+      "type": "quantitative",
+      "stack": "zero",
+      "axis": {
+        "title": "Production (%)",
+        "grid": true,
+        "tickCount": 5
+      },
+      "scale": {"domain": [0, 100]}
+    },
+    "color": {
+      "field": "climate",
+      "type": "nominal",
+      "title": "Climate",
+      "scale": {
+        "domain": ["Cold", "Warm", "Hot"],
+        "range": ["#0000ff", "#fcd12a", "#ff0000"]
+      },
+      "legend": {
+        "orient": "right",
+        "title": "Climate"
+      }
+    },
+    "order": {
+      "field": "climate_order",
+      "type": "quantitative",
+      "sort": "ascending"
+    },
+    "tooltip": [
+      {"field": "year", "type": "ordinal", "title": "Year"},
+      {"field": "climate", "type": "nominal", "title": "Climate"},
+      {"field": "share_num", "type": "quantitative", "title": "Production (%)", "format": ".0f"}
+    ]
+  }
+}

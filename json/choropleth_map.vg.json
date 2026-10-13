@@ -1,0 +1,141 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "text": {
+      "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": 10,
+      "fontWeight": "bold"
+    },
+    "view": {
+      "stroke": null
+    }
+  },
+  "padding": { "left": 10, "right": 80, "top": 10, "bottom": 10 },
+  "projection": {
+    "type": "mercator",
+    "center": [133, -28],
+    "scale": 520
+  },
+  "params": [
+    {
+      "name": "Year_Selection",
+      "value": 2020,
+      "bind": {
+        "input": "select",
+        "options": [2005, 2010, 2015, 2020],
+        "labels": ["2005", "2010", "2015", "2020"],
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {"type": "topojson", "feature": "oceans"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
+    },
+    {
+      "data": {
+        "url": "json/state_map.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_1_states_provinces"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e8e8e8",
+        "stroke": "black",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "tooltip": [
+          {"field": "properties.name", "type": "nominal", "title": "State / Territory"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/production_by_state_processed.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "Year": "number",
+            "Percentage": "number",
+            "Production": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.Year == Year_Selection"
+        },
+        {
+          "lookup": "StateName",
+          "from": {
+            "data": {
+              "url": "json/state_map.json",
+              "format": {
+                "type": "topojson",
+                "feature": "ne_10m_admin_1_states_provinces"
+              }
+            },
+            "key": "properties.name"
+          },
+          "as": "geo"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "field": "Percentage",
+          "type": "quantitative",
+          "title": ["Proportion of",
+                    "National Production",
+                    "(%)"],
+          "scale": {
+            "scheme": "greens",
+            "domain": [0, 50]
+          },
+          "legend": {
+            "titleLimit": 250
+          }
+        },
+        "tooltip": [
+          {"field": "StateName", "type": "nominal", "title": "State"},
+          {"field": "Year", "type": "quantitative", "title": "Year"},
+          {"field": "Production", "type": "quantitative", "title": "Quantity Produced (Tonnes)", "format": ","},
+          {"field": "Percentage", "type": "quantitative", "title": "Percentage (%)", "format": ".1f"}
+        ]
+      }
+    }
+  ]
+}
