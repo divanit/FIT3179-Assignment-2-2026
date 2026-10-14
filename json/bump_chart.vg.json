@@ -3,7 +3,6 @@
   "width": "container",
   "height": 380,
   "background": "transparent",
-  "padding": {"left": 20, "right": 25, "top": 20, "bottom": 85},
   "config": {
     "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
     "axis": {
@@ -24,142 +23,89 @@
       "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
       "fontSize": 10,
       "fontWeight": "bold"
-    },
-    "view": {
-      "stroke": null
     }
   },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
   "data": {
-    "url": "data/climate_by_region.csv"
+    "url": "data/area_by_variety_and_year(hectare).csv"
   },
   "transform": [
-    {"window": [{"op": "count", "as": "index"}]},
-    {"fold": ["AnnP", "AnnT", "VPD_GS", "elevation", "GI_AREA_KM2"], "as": ["variable", "value"]},
     {
-      "calculate": "datum.variable == 'AnnP' ? 'Annual Precipitation (mm)' : datum.variable == 'AnnT' ? 'Annual Temperature (°C)' : datum.variable == 'VPD_GS' ? 'Vapour Pressure Deficit (kPa)' : datum.variable == 'elevation' ? 'Elevation' : 'Surface Area (KM²)'",
-      "as": "variable_title"
+      "fold": ["area2005", "area2010", "area2015", "area2020"],
+      "as": ["year_column", "area"]
     },
     {
-      "joinaggregate": [
-        {"op": "min", "field": "value", "as": "min_val"},
-        {"op": "max", "field": "value", "as": "max_val"}
-      ],
-      "groupby": ["variable_title"]
+      "calculate": "replace(datum.year_column, 'area', '')",
+      "as": "year"
     },
     {
-      "calculate": "(datum.value - datum.min_val) / (datum.max_val - datum.min_val)",
-      "as": "norm_val"
+      "calculate": "toNumber(datum.area)",
+      "as": "area_num"
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "area_num", "order": "descending"}],
+      "groupby": ["year"]
     }
   ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {
+        "title": "Year",
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "quantitative",
+      "scale": {
+        "reverse": true,
+        "domain": [1, 10]
+      },
+      "axis": {
+        "title": "Rank",
+        "tickMinStep": 1,
+        "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      }
+    },
+    "color": {
+      "field": "variety",
+      "type": "nominal",
+      "title": "Wine Variety",
+      "scale": {"scheme": "category10"}
+    },
+    "tooltip": [
+      { "field": "variety", "type": "nominal", "title": "Variety" },
+      { "field": "year", "type": "ordinal", "title": "Year" },
+      { "field": "rank", "type": "quantitative", "title": "Rank" },
+      { "field": "area_num", "type": "quantitative", "title": "Area (hectare)", "format": "," }
+    ]
+  },
   "layer": [
     {
-      "mark": {"type": "rule", "color": "#ddd", "strokeWidth": 1},
-      "encoding": {
-        "x": {
-          "field": "variable_title",
-          "type": "nominal",
-          "sort": [
-            "Annual Precipitation (mm)",
-            "Annual Temperature (°C)",
-            "Vapour Pressure Deficit (kPa)",
-            "Elevation",
-            "Surface Area (KM²)"
-          ]
-        }
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3
       }
     },
     {
-      "mark": {"type": "line", "opacity": 0.7, "strokeWidth": 3},
-      "encoding": {
-        "x": {
-          "field": "variable_title",
-          "type": "nominal",
-          "title": null,
-          "sort": [
-            "Annual Precipitation (mm)",
-            "Annual Temperature (°C)",
-            "Vapour Pressure Deficit (kPa)",
-            "Elevation",
-            "Surface Area (KM²)"
-          ],
-          "axis": {"labels": false, "ticks": false}
-        },
-        "y": {
-          "field": "norm_val",
-          "type": "quantitative",
-          "title": null,
-          "scale": {"domain": [0, 1]},
-          "axis": {
-            "grid": true,
-            "ticks": false,
-            "labels": false,
-            "values": [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-          }
-        },
-        "color": {
-          "field": "region",
-          "type": "nominal",
-          "title": "Wine Region",
-          "scale": {"scheme": "category20"}
-        },
-        "detail": {"field": "index", "type": "nominal"},
-        "tooltip": [
-          {"field": "region", "type": "nominal", "title": "Region"},
-          {"field": "variable_title", "type": "nominal", "title": "Variable"},
-          {"field": "value", "type": "quantitative", "title": "Actual Value", "format": ","}
-        ]
+      "mark": {
+        "type": "circle",
+        "size": 320,
+        "opacity": 1
       }
     },
     {
-      "data": {
-        "values": [
-          {"variable_title": "Annual Precipitation (mm)", "lines": ["Annual", "Precipitation", "(mm)"]},
-          {"variable_title": "Annual Temperature (°C)", "lines": ["Annual", "Temperature", "(°C)"]},
-          {"variable_title": "Vapour Pressure Deficit (kPa)", "lines": ["Vapour Pressure", "Deficit (kPa)", ""]},
-          {"variable_title": "Elevation", "lines": ["Elevation", "", ""]},
-          {"variable_title": "Surface Area (KM²)", "lines": ["Surface Area", "(KM²)", ""]}
-        ]
-      },
       "mark": {
         "type": "text",
-        "align": "center",
-        "baseline": "top",
-        "dy": 15,
-        "lineHeight": 14,
-        "fontSize": 11,
-        "fontWeight": "bold",
-        "color": "#000"
+        "color": "white",
+        "fontSize": 10,
+        "fontWeight": "bold"
       },
       "encoding": {
-        "x": {
-          "field": "variable_title",
-          "type": "nominal",
-          "sort": [
-            "Annual Precipitation (mm)",
-            "Annual Temperature (°C)",
-            "Vapour Pressure Deficit (kPa)",
-            "Elevation",
-            "Surface Area (KM²)"
-          ]
-        },
-        "y": {"value": 380},
-        "text": {"field": "lines"}
-      }
-    },
-    {
-      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
-      "encoding": {
-        "x": {"field": "variable_title", "type": "nominal"},
-        "y": {"value": 0},
-        "text": {"field": "max_val", "type": "quantitative", "format": ","}
-      }
-    },
-    {
-      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
-      "encoding": {
-        "x": {"field": "variable_title", "type": "nominal"},
-        "y": {"value": 380},
-        "text": {"field": "min_val", "type": "quantitative", "format": ","}
+        "text": { "field": "rank", "type": "quantitative" }
       }
     }
   ]
