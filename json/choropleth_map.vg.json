@@ -28,7 +28,7 @@
       "stroke": null
     }
   },
-  "padding": { "left": 10, "right": 80, "top": 10, "bottom": 10 },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
   "projection": {
     "type": "mercator",
     "center": [133, -28],
