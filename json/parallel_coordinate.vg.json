@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": "container",
-  "height": 360,
+  "height": 380,
   "background": "transparent",
-  "padding": {"left": 20, "right": 25, "top": 20, "bottom": 95},
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
   "config": {
     "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
     "view": {
@@ -11,40 +11,28 @@
     }
   },
   "data": {
-    "values": [
-      {"region": "Alpine Valleys", "AnnP": 961, "AnnT": 15.0, "VPD_GS": 8.1, "elevation": 226, "GI_AREA_KM2": 3629},
-      {"region": "Coonawarra", "AnnP": 745, "AnnT": 14.4, "VPD_GS": 5.3, "elevation": 63, "GI_AREA_KM2": 398},
-      {"region": "Orange", "AnnP": 880, "AnnT": 13.6, "VPD_GS": 6.8, "elevation": 889, "GI_AREA_KM2": 3422},
-      {"region": "Geelong", "AnnP": 533, "AnnT": 15.4, "VPD_GS": 5.5, "elevation": 19, "GI_AREA_KM2": 2821},
-      {"region": "Great Southern", "AnnP": 982, "AnnT": 16.3, "VPD_GS": 4.3, "elevation": 36, "GI_AREA_KM2": 17131},
-      {"region": "Henty", "AnnP": 657, "AnnT": 13.9, "VPD_GS": 5.9, "elevation": 192, "GI_AREA_KM2": 14690},
-      {"region": "Margaret River", "AnnP": 1043, "AnnT": 17.4, "VPD_GS": 6.5, "elevation": 109, "GI_AREA_KM2": 2137},
-      {"region": "Mornington Peninsula", "AnnP": 757, "AnnT": 15.3, "VPD_GS": 5.1, "elevation": 11, "GI_AREA_KM2": 723},
-      {"region": "Perth Hills", "AnnP": 913, "AnnT": 17.5, "VPD_GS": 9.5, "elevation": 295, "GI_AREA_KM2": 3282},
-      {"region": "Strathbogie Ranges", "AnnP": 1145, "AnnT": 12.6, "VPD_GS": 6.4, "elevation": 480, "GI_AREA_KM2": 1977},
-      {"region": "South Burnett", "AnnP": 749, "AnnT": 20.1, "VPD_GS": 8.3, "elevation": 339, "GI_AREA_KM2": 8274},
-      {"region": "Southern Highlands", "AnnP": 987, "AnnT": 14.0, "VPD_GS": 4.9, "elevation": 680, "GI_AREA_KM2": 2687},
-      {"region": "Riverina", "AnnP": 414, "AnnT": 18.0, "VPD_GS": 12.1, "elevation": 148, "GI_AREA_KM2": 77974},
-      {"region": "Riverland", "AnnP": 248, "AnnT": 18.2, "VPD_GS": 12.2, "elevation": 23, "GI_AREA_KM2": 4105},
-      {"region": "Yarra Valley", "AnnP": 1014, "AnnT": 14.6, "VPD_GS": 6.0, "elevation": 130, "GI_AREA_KM2": 3130}
-    ]
+    "url": "data/climate_by_region.csv"
   },
   "transform": [
     {"window": [{"op": "count", "as": "index"}]},
     {"fold": ["AnnP", "AnnT", "VPD_GS", "elevation", "GI_AREA_KM2"], "as": ["variable", "value"]},
+    {
+      "calculate": "toNumber(datum.value)",
+      "as": "num_val"
+    },
     {
       "calculate": "datum.variable == 'AnnP' ? 'Annual Precipitation (mm)' : datum.variable == 'AnnT' ? 'Annual Temperature (°C)' : datum.variable == 'VPD_GS' ? 'Vapour Pressure during Growing Season (kPa)' : datum.variable == 'elevation' ? 'Elevation' : 'Surface Area (KM²)'",
       "as": "variable_title"
     },
     {
       "joinaggregate": [
-        {"op": "min", "field": "value", "as": "min_val"},
-        {"op": "max", "field": "value", "as": "max_val"}
+        {"op": "min", "field": "num_val", "as": "min_val"},
+        {"op": "max", "field": "num_val", "as": "max_val"}
       ],
       "groupby": ["variable_title"]
     },
     {
-      "calculate": "(datum.value - datum.min_val) / (datum.max_val - datum.min_val)",
+      "calculate": "(datum.num_val - datum.min_val) / (datum.max_val - datum.min_val)",
       "as": "norm_val"
     }
   ],
@@ -103,7 +91,7 @@
         "tooltip": [
           {"field": "region", "type": "nominal", "title": "Region"},
           {"field": "variable_title", "type": "nominal", "title": "Variable"},
-          {"field": "value", "type": "quantitative", "title": "Actual Value", "format": ","}
+          {"field": "num_val", "type": "quantitative", "title": "Actual Value", "format": ","}
         ]
       }
     },
@@ -139,23 +127,55 @@
             "Surface Area (KM²)"
           ]
         },
-        "y": {"value": 360},
+        "y": {"value": 380},
         "text": {"field": "lines"}
       }
     },
     {
+      "transform": [
+        {
+          "aggregate": [{"op": "max", "field": "num_val", "as": "max_val"}],
+          "groupby": ["variable_title"]
+        }
+      ],
       "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
       "encoding": {
-        "x": {"field": "variable_title", "type": "nominal"},
+        "x": {
+          "field": "variable_title",
+          "type": "nominal",
+          "sort": [
+            "Annual Precipitation (mm)",
+            "Annual Temperature (°C)",
+            "Vapour Pressure during Growing Season (kPa)",
+            "Elevation",
+            "Surface Area (KM²)"
+          ]
+        },
         "y": {"value": 0},
         "text": {"field": "max_val", "type": "quantitative", "format": ","}
       }
     },
     {
+      "transform": [
+        {
+          "aggregate": [{"op": "min", "field": "num_val", "as": "min_val"}],
+          "groupby": ["variable_title"]
+        }
+      ],
       "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
       "encoding": {
-        "x": {"field": "variable_title", "type": "nominal"},
-        "y": {"value": 360},
+        "x": {
+          "field": "variable_title",
+          "type": "nominal",
+          "sort": [
+            "Annual Precipitation (mm)",
+            "Annual Temperature (°C)",
+            "Vapour Pressure during Growing Season (kPa)",
+            "Elevation",
+            "Surface Area (KM²)"
+          ]
+        },
+        "y": {"value": 380},
         "text": {"field": "min_val", "type": "quantitative", "format": ","}
       }
     }
