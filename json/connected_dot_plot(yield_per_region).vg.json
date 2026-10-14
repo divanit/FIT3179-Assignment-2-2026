@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 12
+    },
+    "text": {
+      "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": 10,
+      "fontWeight": "bold"
+    }
+  },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
+  "data": {
+    "url": "data/yield_per_region(tonnes per hectare).csv"
+  },
+  "transform": [
+    {
+      "fold": ["yield2005", "yield2020"],
+      "as": ["year_column", "yield"]
+    },
+    {
+      "calculate": "replace(datum.year_column, 'yield', '')",
+      "as": "year"
+    },
+    {
+      "calculate": "toNumber(datum.yield)",
+      "as": "yield_num"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "region",
+      "type": "nominal",
+      "sort": {"field": "yield2005", "order": "descending"},
+      "axis": {
+        "title": null,
+        "labelAngle": 0
+      }
+    },
+    "x": {
+      "field": "yield_num",
+      "type": "quantitative",
+      "axis": {
+        "title": "Grape Yield (Tonnes/Hectare)",
+        "grid": true
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2,
+        "color": "#788596"
+      },
+      "encoding": {
+        "detail": {"field": "region"}
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 220,
+        "opacity": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "year",
+          "type": "nominal",
+          "title": "Year",
+          "scale": {
+            "domain": ["2005", "2020"],
+            "range": ["#1f77b4", "#d62728"]
+          }
+        },
+        "tooltip": [
+          {"field": "region", "type": "nominal", "title": "Region"},
+          {"field": "year", "type": "ordinal", "title": "Year"},
+          {"field": "yield_num", "type": "quantitative", "title": "Yield (tonnes/hectare)", "format": ".1f"}
+        ]
+      }
+    }
+  ]
+}
