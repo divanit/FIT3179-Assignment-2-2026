@@ -60,11 +60,6 @@
       "mark": {
         "type": "geoshape",
         "fill": "#e8e8e8"
-      },
-      "encoding": {
-        "tooltip": [
-          {"field": "properties.NAME", "type": "nominal", "title": "Country"}
-        ]
       }
     },
     {

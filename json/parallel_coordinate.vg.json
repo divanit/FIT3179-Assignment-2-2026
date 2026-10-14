@@ -21,15 +21,16 @@
       "as": "num_val"
     },
     {
-      "calculate": "datum.variable == 'AnnP' ? 'Annual Precipitation (mm)' : datum.variable == 'AnnT' ? 'Annual Temperature (°C)' : datum.variable == 'VPD_GS' ? 'Vapour Pressure during Growing Season (kPa)' : datum.variable == 'elevation' ? 'Elevation' : 'Surface Area (KM²)'",
+      "calculate": "datum.variable == 'AnnP' ? 'Annual Precipitation (mm)' : datum.variable == 'AnnT' ? 'Annual Temperature (°C)' : datum.variable == 'VPD_GS' ? 'Vapour Pressure during Growing Season (kPa)' : datum.variable == 'elevation' ? 'Elevation (m)' : 'Surface Area (KM²)'",
       "as": "variable_title"
     },
     {
-      "joinaggregate": [
-        {"op": "min", "field": "num_val", "as": "min_val"},
-        {"op": "max", "field": "num_val", "as": "max_val"}
-      ],
-      "groupby": ["variable_title"]
+      "calculate": "0",
+      "as": "min_val"
+    },
+    {
+      "calculate": "datum.variable == 'AnnP' ? 1200 : datum.variable == 'AnnT' ? 25 : datum.variable == 'VPD_GS' ? 15 : datum.variable == 'elevation' ? 1000 : 100000",
+      "as": "max_val"
     },
     {
       "calculate": "(datum.num_val - datum.min_val) / (datum.max_val - datum.min_val)",
@@ -47,7 +48,7 @@
             "Annual Precipitation (mm)",
             "Annual Temperature (°C)",
             "Vapour Pressure during Growing Season (kPa)",
-            "Elevation",
+            "Elevation (m)",
             "Surface Area (KM²)"
           ]
         }
@@ -64,7 +65,7 @@
             "Annual Precipitation (mm)",
             "Annual Temperature (°C)",
             "Vapour Pressure during Growing Season (kPa)",
-            "Elevation",
+            "Elevation (m)",
             "Surface Area (KM²)"
           ],
           "axis": {"labels": false, "ticks": false}
@@ -91,7 +92,38 @@
         "tooltip": [
           {"field": "region", "type": "nominal", "title": "Region"},
           {"field": "variable_title", "type": "nominal", "title": "Variable"},
-          {"field": "num_val", "type": "quantitative", "title": "Actual Value", "format": ","}
+          {"field": "num_val", "type": "quantitative", "title": "Value", "format": ","}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 45, "opacity": 0.8},
+      "encoding": {
+        "x": {
+          "field": "variable_title",
+          "type": "nominal",
+          "sort": [
+            "Annual Precipitation (mm)",
+            "Annual Temperature (°C)",
+            "Vapour Pressure during Growing Season (kPa)",
+            "Elevation (m)",
+            "Surface Area (KM²)"
+          ]
+        },
+        "y": {
+          "field": "norm_val",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "region",
+          "type": "nominal",
+          "scale": {"scheme": "category20"}
+        },
+        "detail": {"field": "index", "type": "nominal"},
+        "tooltip": [
+          {"field": "region", "type": "nominal", "title": "Region"},
+          {"field": "variable_title", "type": "nominal", "title": "Variable"},
+          {"field": "num_val", "type": "quantitative", "title": "Value", "format": ","}
         ]
       }
     },
@@ -101,7 +133,7 @@
           {"variable_title": "Annual Precipitation (mm)", "lines": ["Annual", "Precipitation", "(mm)"]},
           {"variable_title": "Annual Temperature (°C)", "lines": ["Annual", "Temperature", "(°C)"]},
           {"variable_title": "Vapour Pressure during Growing Season (kPa)", "lines": ["Vapour Pressure", "during Growing", "Season (kPa)"]},
-          {"variable_title": "Elevation", "lines": ["Elevation", "", ""]},
+          {"variable_title": "Elevation (m)", "lines": ["Elevation", "(m)", ""]},
           {"variable_title": "Surface Area (KM²)", "lines": ["Surface Area", "(KM²)", ""]}
         ]
       },
@@ -123,7 +155,7 @@
             "Annual Precipitation (mm)",
             "Annual Temperature (°C)",
             "Vapour Pressure during Growing Season (kPa)",
-            "Elevation",
+            "Elevation (m)",
             "Surface Area (KM²)"
           ]
         },
@@ -132,12 +164,15 @@
       }
     },
     {
-      "transform": [
-        {
-          "aggregate": [{"op": "max", "field": "num_val", "as": "max_val"}],
-          "groupby": ["variable_title"]
-        }
-      ],
+      "data": {
+        "values": [
+          {"variable_title": "Annual Precipitation (mm)", "custom_max": "1,200"},
+          {"variable_title": "Annual Temperature (°C)", "custom_max": "25"},
+          {"variable_title": "Vapour Pressure during Growing Season (kPa)", "custom_max": "15"},
+          {"variable_title": "Elevation (m)", "custom_max": "1,000"},
+          {"variable_title": "Surface Area (KM²)", "custom_max": "100,000"}
+        ]
+      },
       "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
       "encoding": {
         "x": {
@@ -147,21 +182,24 @@
             "Annual Precipitation (mm)",
             "Annual Temperature (°C)",
             "Vapour Pressure during Growing Season (kPa)",
-            "Elevation",
+            "Elevation (m)",
             "Surface Area (KM²)"
           ]
         },
         "y": {"value": 0},
-        "text": {"field": "max_val", "type": "quantitative", "format": ","}
+        "text": {"field": "custom_max"}
       }
     },
     {
-      "transform": [
-        {
-          "aggregate": [{"op": "min", "field": "num_val", "as": "min_val"}],
-          "groupby": ["variable_title"]
-        }
-      ],
+      "data": {
+        "values": [
+          {"variable_title": "Annual Precipitation (mm)", "custom_min": "0"},
+          {"variable_title": "Annual Temperature (°C)", "custom_min": "0"},
+          {"variable_title": "Vapour Pressure during Growing Season (kPa)", "custom_min": "0"},
+          {"variable_title": "Elevation (m)", "custom_min": "0"},
+          {"variable_title": "Surface Area (KM²)", "custom_min": "0"}
+        ]
+      },
       "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 10, "fontWeight": "bold", "color": "#333"},
       "encoding": {
         "x": {
@@ -171,12 +209,12 @@
             "Annual Precipitation (mm)",
             "Annual Temperature (°C)",
             "Vapour Pressure during Growing Season (kPa)",
-            "Elevation",
+            "Elevation (m)",
             "Surface Area (KM²)"
           ]
         },
         "y": {"value": 380},
-        "text": {"field": "min_val", "type": "quantitative", "format": ","}
+        "text": {"field": "custom_min"}
       }
     }
   ]
