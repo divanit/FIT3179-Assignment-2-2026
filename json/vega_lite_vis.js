@@ -1,3 +1,4 @@
+// Defining chart file paths 
 var specVis1 = "json/choropleth_map.vg.json";
 var specVis2 = "json/bump_chart.vg.json";
 var specVis3 = "json/butterfly_chart.vg.json";
@@ -10,6 +11,7 @@ var specVis9 = "json/connected_dot_plot.vg.json";
 var specVis10 = "json/parallel_coordinate.vg.json";
 var specVis11 = "json/horizontal_stacked_bar_chart.vg.json";
 
+// Embedding visualisations - connects the HTML container to the JSON file
 vegaEmbed('#vis1', specVis1, { "actions": false }).catch(console.error);
 vegaEmbed('#vis2', specVis2, { "actions": false }).catch(console.error);
 vegaEmbed('#vis3', specVis3, { "actions": false }).catch(console.error);
