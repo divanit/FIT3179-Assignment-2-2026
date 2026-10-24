@@ -1,0 +1,91 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "axis": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 11
+    },
+    "legend": {
+      "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "labelFontSize": 11
+    },
+    "text": {
+      "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "fontSize": 9,
+      "fontWeight": "bold"
+    },
+    "view": {
+      "stroke": null
+    }
+  },
+  "padding": { "left": 10, "right": 40, "top": 10, "bottom": 10 },
+  "data": {
+    "url": "data/price_by_region_year.csv"
+  },
+  "transform": [
+    {
+      "fold": ["P2005", "P2010", "P2015", "P2020"],
+      "as": ["year_column", "price"]
+    },
+    {
+      "calculate": "replace(datum.year_column, 'P', '')",
+      "as": "year"
+    },
+    {
+      "calculate": "toNumber(datum.price)",
+      "as": "price_num"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "axis": {
+        "title": "Year",
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "region",
+      "type": "nominal",
+      "sort": "ascending",
+      "axis": {
+        "title": "Wine Region"
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "color": {
+          "field": "price_num",
+          "type": "quantitative",
+          "title": "Price (AUD per tonne)",
+          "scale": {
+            "scheme": "oranges"
+          }
+        },
+        "tooltip": [
+          { "field": "region", "type": "nominal", "title": "Region" },
+          { "field": "year", "type": "ordinal", "title": "Year" },
+          { "field": "price_num", "type": "quantitative", "title": "Price", "format": "," }
+        ]
+      }
+    }
+  ]
+}
