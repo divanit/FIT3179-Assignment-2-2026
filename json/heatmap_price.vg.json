@@ -75,7 +75,7 @@
         "color": {
           "field": "price_num",
           "type": "quantitative",
-          "title": "Price (AUD per tonne)",
+          "title": "Price per tonne (AUD)",
           "scale": {
             "scheme": "oranges"
           }

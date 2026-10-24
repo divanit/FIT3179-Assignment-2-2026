@@ -7,7 +7,7 @@ var specVis5 = "json/historical_climate_chart.vg.json";
 var specVis6 = "json/graduated_symbol_map.vg.json";
 var specVis7 = "json/connected_dot_plot(yield_per_region).vg.json";
 var specVis8 = "json/heatmap_price.vg.json";
-var specVis9 = "json/connected_dot_plot.vg.json";
+var specVis9 = "json/heatmap_revenue.vg.json";
 var specVis10 = "json/parallel_coordinate.vg.json";
 var specVis11 = "json/horizontal_stacked_bar_chart.vg.json";
 
