@@ -88,7 +88,7 @@
       "mark": {
         "type": "circle",
         "opacity": 0.60,
-        "fill": "#b16dff",
+        "fill": "#450000",
         "stroke": "black",
         "strokeWidth": 0.75
       },

@@ -1,0 +1,268 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 380,
+  "background": "transparent",
+
+  "padding": {
+    "left": 10,
+    "right": 40,
+    "top": 10,
+    "bottom": 10
+  },
+
+  "config": {
+    "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+
+    "view": {
+      "stroke": null
+    },
+
+    "legend": {
+      "titleFont": "Inter, sans-serif",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelFont": "Inter, sans-serif",
+      "labelFontSize": 11,
+      "orient": "bottom",
+      "direction": "vertical",
+      "titleColor": "#263746",
+      "labelColor": "#465766",
+      "offset": 15
+    }
+  },
+
+  "projection": {
+    "type": "naturalEarth1",
+    "scale": 120,
+    "center": [15, 0]
+  },
+
+  "layer": [
+
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": {
+          "type": "topojson",
+          "feature": "oceans"
+        }
+      },
+
+      "mark": {
+        "type": "geoshape",
+        "fill": "skyblue"
+      }
+    },
+
+    {
+      "data": {
+        "url": "json/world_map.json",
+        "format": {
+          "type": "topojson",
+          "feature": "ne_10m_admin_0_countries"
+        }
+      },
+
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e8e8e8",
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.65
+      }
+    },
+
+    {
+      "data": {
+        "url": "data/export_countries.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+
+      "mark": {
+        "type": "rule",
+        "strokeCap": "round",
+        "opacity": 0.78
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "orig_lon",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "orig_lat",
+          "type": "quantitative"
+        },
+
+        "longitude2": {
+          "field": "dest_lon"
+        },
+
+        "latitude2": {
+          "field": "dest_lat"
+        },
+
+        "size": {
+          "field": "volume",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "range": [1.2, 4.5]
+          },
+          "legend": false
+        },
+
+        "color": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "Export Value (AUD Millions)",
+          "scale": {
+            "type": "linear",
+            "range": ["#e6ccf5", "#b870de", "#8531b3", "#510e78", "#240336"]
+          },
+          "legend": {
+            "orient": "right",
+            "gradientLength": 220,
+            "gradientThickness": 12,
+            "format": ",.0f"
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "destination",
+            "type": "nominal",
+            "title": "Destination"
+          },
+          {
+            "field": "volume",
+            "type": "quantitative",
+            "title": "Export Volume (Million Litres)",
+            "format": ",.1f"
+          },
+          {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Export Value (AUD Millions)",
+            "format": ",.1f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/export_countries.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+
+      "mark": {
+        "type": "circle",
+        "size": 42,
+        "fill": "#FFFFFF",
+        "stroke": "#000000",
+        "strokeWidth": 1.5
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "dest_lon",
+          "type": "quantitative"
+        },
+
+        "latitude": {
+          "field": "dest_lat",
+          "type": "quantitative"
+        },
+
+        "tooltip": [
+          {
+            "field": "destination",
+            "type": "nominal",
+            "title": "Destination"
+          },
+          {
+            "field": "volume",
+            "type": "quantitative",
+            "title": "Export Volume (Million Litres)",
+            "format": ",.1f"
+          },
+          {
+            "field": "value",
+            "type": "quantitative",
+            "title": "Export Value (AUD Millions)",
+            "format": ",.1f"
+          }
+        ]
+      }
+    },
+
+    {
+      "data": {
+        "url": "data/export_countries.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+
+      "transform": [
+        {
+          "filter": {
+            "field": "destination",
+            "oneOf": [
+              "Mainland China",
+              "United Kingdom",
+              "United States",
+              "Canada",
+              "Singapore",
+              "Hong Kong"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.destination === 'United Kingdom' ? -15 : datum.destination === 'United States' ? -92 : datum.destination === 'Canada' ? -88 : datum.destination === 'Mainland China' ? 125 : datum.destination === 'Singapore' ? 112 : 125",
+          "as": "label_lon"
+        },
+        {
+          "calculate": "datum.destination === 'United Kingdom' ? 55 : datum.destination === 'United States' ? 45 : datum.destination === 'Canada' ? 52 : datum.destination === 'Mainland China' ? 43 : datum.destination === 'Singapore' ? -2 : 25",
+          "as": "label_lat"
+        }
+      ],
+
+      "mark": {
+        "type": "text",
+        "font": "Inter, sans-serif",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "fill": "#263746",
+        "align": "center",
+        "baseline": "middle"
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "label_lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "label_lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "destination",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+
+  "resolve": {
+    "scale": {
+      "color": "shared"
+    }
+  }
+}
